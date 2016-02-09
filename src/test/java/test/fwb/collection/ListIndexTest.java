@@ -80,13 +80,15 @@ public class ListIndexTest {
 	public void testGetLiveIndex() {
 		assertEquals(EXPECTED_UNIQUE,
 				ListIndex.getLiveIndex(
-						// an example of why we need Java7's "diamond" operator
-						// or I'd need a factory method to use Java6's generic inference
-						new ListSetView<>(INPUT_UNIQUE)));
+						newListSetView(INPUT_UNIQUE)));
 //		assertEquals(EXPECTED_DUPE,
 //				ListIndex.getLiveIndex(
 //						// I am not a monster; we don't coerce non-distinct collections into Sets
 //						new ListSetView<>((List<?>) INPUT_DUPE)));
+	}
+	/** an example of why we need Java7's "diamond" operator */
+	<T> ListSetView<T> newListSetView(List<T> l) {
+		return new ListSetView<T>(l);
 	}
 	
 	@Test
