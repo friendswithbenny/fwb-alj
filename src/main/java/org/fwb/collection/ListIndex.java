@@ -16,6 +16,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import com.google.common.collect.ImmutableMap.Builder;
+import com.google.common.collect.Lists;
 
 /**
  * these utilities are specifically related to the integer index of {@link List} elements.
@@ -95,7 +96,7 @@ public class ListIndex {
 		}
 	}
 	
-	/** calls {@link List#indexOf(Object)} */
+	/** delegates to the {@link List#indexOf(Object)} method */
 	static class IndexOf<T> implements Function<T, Integer> {
 		final List<T> LIST;
 		IndexOf(List<T> list) {
@@ -142,17 +143,23 @@ public class ListIndex {
 	
 	/**
 	 * Immutable (copy of a) List
-	 * with O(1) {@link #indexOf(Object)} operation
+	 * with O(1) {@link #indexOf(Object)} operation (and @link {@link #contains(Object)})
 	 * at the expense of (2x) O(n) constructor.
+	 * n.b. {@link #contains(Object)} and {@link #lastIndexOf(Object)} are also enhanced.
 	 */
-	public class IndexedList<T> extends AbstractList<T> {
+	public static class IndexedList<T> extends AbstractList<T> {
+		public static <T> IndexedList<T> of(List<T> l) {
+			return l instanceof IndexedList ? (IndexedList<T>) l : new IndexedList<T>(l);
+		}
+		
 		final ImmutableList<T> DELEGATE;
-		final ImmutableMap<T, Integer> INDEX;
+		final ImmutableMap<T, Integer> INDEX, REVERSE;
 		
 		/** O(n) */
 		public IndexedList(Collection<T> delegate) {
 			DELEGATE = ImmutableList.copyOf(delegate);
 			INDEX = getListIndex(DELEGATE);
+			REVERSE = getListIndex(Lists.reverse(DELEGATE));
 		}
 		
 		public ImmutableMap<T, Integer> getIndex() {
@@ -163,6 +170,16 @@ public class ListIndex {
 		@Override
 		public int indexOf(Object o) {
 			return MoreObjects.firstNonNull(INDEX.get(o), -1);
+		}
+		/** performance-enhanced: O(1) */
+		@Override
+		public int lastIndexOf(Object o) {
+			return MoreObjects.firstNonNull(REVERSE.get(o), -1);
+		}
+		/** performance-enhanced: O(1) */
+		@Override
+		public boolean contains(Object o) {
+			return 0 <= indexOf(o);
 		}
 		
 		@Override

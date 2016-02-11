@@ -14,7 +14,7 @@ import java.util.Set;
  * which is a list-of-fields (Relation)
  * to be applied to lists-of-values (Records).
  */
-public interface Relation extends List<Field>, Set<Field> {
+interface Relation extends List<Field>, Set<Field> {
 	/** a map from field-name to record-value */
 	Map<String, Object> getRecordMap(Record r);
 	
