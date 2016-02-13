@@ -3,12 +3,12 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>org.fwb</groupId>
-	<artifactId>fwb-col</artifactId>
+	<artifactId>fwb-alj</artifactId>
 	<version>1.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>fwb-col</name>
-	<url>https://github.com/friendswithbenny/fwb-col</url>
+	<name>alj</name>
+	<url>https://github.com/friendswithbenny/fwb-alj</url>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
