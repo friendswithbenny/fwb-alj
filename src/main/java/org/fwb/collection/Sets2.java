@@ -16,6 +16,8 @@ import com.google.common.collect.ForwardingList;
 
 /**
  * these utilities are specifically related to Sets of (distinct) elements.
+ * TODO rename this class "SetUtil"
+ * TODO extract some of the inner classes?
  */
 public class Sets2 {
 	/** @deprecated static utilities only */
