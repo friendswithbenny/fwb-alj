@@ -1,4 +1,4 @@
-package org.fwb.collection;
+package org.fwb.alj.col;
 
 import java.util.AbstractList;
 import java.util.Collection;
@@ -7,8 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.fwb.collection.ListIndex.ListIndices.CollectionListIndices;
-import org.fwb.collection.SetUtil.SetAndList;
+import org.fwb.alj.col.ListIndex.ListIndices.CollectionListIndices;
+import org.fwb.alj.col.SetUtil.SetAndList;
 
 import com.google.common.base.Function;
 import com.google.common.base.MoreObjects;

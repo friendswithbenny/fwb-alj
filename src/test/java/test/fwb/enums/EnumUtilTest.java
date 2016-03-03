@@ -1,9 +1,9 @@
 package test.fwb.enums;
 
-import org.fwb.enums.EnumUtil;
-import org.fwb.enums.EnumUtil.EnumName;
-import org.fwb.enums.EnumUtil.EnumValueList;
-import org.fwb.enums.EnumUtil.EnumValues;
+import org.fwb.alj.en.EnumUtil;
+import org.fwb.alj.en.EnumUtil.EnumName;
+import org.fwb.alj.en.EnumUtil.EnumValueList;
+import org.fwb.alj.en.EnumUtil.EnumValues;
 import org.junit.Test;
 
 import com.google.common.collect.Lists;

@@ -1,12 +1,12 @@
-package test.fwb.collection;
+package test.fwb.alj.col;
 
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-import org.fwb.collection.ListIndex;
-import org.fwb.collection.SetUtil.SetView.ListSetView;
+import org.fwb.alj.col.ListIndex;
+import org.fwb.alj.col.SetUtil.SetView.ListSetView;
 import org.junit.Test;
 
 import com.google.common.collect.ImmutableMap;

@@ -1,4 +1,4 @@
-package org.fwb.enums;
+package org.fwb.alj.en;
 
 import java.util.Arrays;
 import java.util.EnumSet;

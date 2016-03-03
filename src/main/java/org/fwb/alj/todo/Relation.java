@@ -1,10 +1,10 @@
-package org.fwb.collection.todo;
+package org.fwb.alj.todo;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.fwb.collection.todo.Relation.Field;
+import org.fwb.alj.todo.Relation.Field;
 
 import java.util.Set;
 

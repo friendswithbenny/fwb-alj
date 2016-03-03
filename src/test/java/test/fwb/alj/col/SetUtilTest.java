@@ -1,4 +1,4 @@
-package test.fwb.collection;
+package test.fwb.alj.col;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -9,11 +9,11 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
-import org.fwb.collection.SetUtil;
-import org.fwb.collection.SetUtil.NonDistinctException;
-import org.fwb.collection.SetUtil.SetAndList;
-import org.fwb.collection.SetUtil.SetView;
-import org.fwb.collection.SetUtil.SetView.ListSetView;
+import org.fwb.alj.col.SetUtil;
+import org.fwb.alj.col.SetUtil.NonDistinctException;
+import org.fwb.alj.col.SetUtil.SetAndList;
+import org.fwb.alj.col.SetUtil.SetView;
+import org.fwb.alj.col.SetUtil.SetView.ListSetView;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

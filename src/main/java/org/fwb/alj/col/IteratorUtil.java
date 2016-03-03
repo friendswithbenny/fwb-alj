@@ -1,4 +1,4 @@
-package org.fwb.collection;
+package org.fwb.alj.col;
 
 import java.util.Iterator;
 

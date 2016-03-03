@@ -1,4 +1,4 @@
-package org.fwb.collection.todo;
+package org.fwb.alj.todo;
 
 import java.util.Iterator;
 
