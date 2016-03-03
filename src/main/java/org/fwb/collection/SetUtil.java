@@ -16,13 +16,12 @@ import com.google.common.collect.ForwardingList;
 
 /**
  * these utilities are specifically related to Sets of (distinct) elements.
- * TODO rename this class "SetUtil"
- * TODO extract some of the inner classes?
+ * TODO extract some of these inner classes?
  */
-public class Sets2 {
+public class SetUtil {
 	/** @deprecated static utilities only */
 	@Deprecated
-	private Sets2() { }
+	private SetUtil() { }
 	
 	/** a List whose elements are unique */
 	public static interface SetAndList<T> extends Set<T>, List<T> { }

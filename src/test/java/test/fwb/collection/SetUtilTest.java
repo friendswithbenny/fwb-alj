@@ -9,36 +9,36 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
-import org.fwb.collection.Sets2;
-import org.fwb.collection.Sets2.NonDistinctException;
-import org.fwb.collection.Sets2.SetAndList;
-import org.fwb.collection.Sets2.SetView;
-import org.fwb.collection.Sets2.SetView.ListSetView;
+import org.fwb.collection.SetUtil;
+import org.fwb.collection.SetUtil.NonDistinctException;
+import org.fwb.collection.SetUtil.SetAndList;
+import org.fwb.collection.SetUtil.SetView;
+import org.fwb.collection.SetUtil.SetView.ListSetView;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import static org.junit.Assert.*;
 
-public class Sets2Test {
-	static final Logger LOG = LoggerFactory.getLogger(Sets2Test.class);
+public class SetUtilTest {
+	static final Logger LOG = LoggerFactory.getLogger(SetUtilTest.class);
 	
 	@Test
 	public void testIsSetAndList() {
-		assertFalse(Sets2.isSetAndList(new HashSet<Object>()));
-		assertFalse(Sets2.isSetAndList(new ArrayList<Object>()));
-		assertFalse(Sets2.isSetAndList(new LinkedList<Object>()));
-		assertTrue(Sets2.isSetAndList(new CheatSetAndList<Object>()));
+		assertFalse(SetUtil.isSetAndList(new HashSet<Object>()));
+		assertFalse(SetUtil.isSetAndList(new ArrayList<Object>()));
+		assertFalse(SetUtil.isSetAndList(new LinkedList<Object>()));
+		assertTrue(SetUtil.isSetAndList(new CheatSetAndList<Object>()));
 		
 		// some interesting but spec-undefined variables:
 		LOG.info("Collections.emptySet() isSetAndList? {}",
-				Sets2.isSetAndList(Collections.emptySet()));
+				SetUtil.isSetAndList(Collections.emptySet()));
 		LOG.info("Collections.emptyList() isSetAndList? {}",
-				Sets2.isSetAndList(Collections.emptyList()));
+				SetUtil.isSetAndList(Collections.emptyList()));
 		LOG.info("Collections.singleton(_) isSetAndList? {}",
-				Sets2.isSetAndList(Collections.singleton("foo")));
+				SetUtil.isSetAndList(Collections.singleton("foo")));
 		LOG.info("Collections.singletonList(_) isSetAndList? {}",
-				Sets2.isSetAndList(Collections.singletonList("bar")));
+				SetUtil.isSetAndList(Collections.singletonList("bar")));
 	}
 	
 	@Test
@@ -47,7 +47,7 @@ public class Sets2Test {
 	}
 	@Test
 	public void testListSetView() {
-		assertTrue(Sets2.isSetAndList(new ListSetView<Object>(new ArrayList<Object>())));
+		assertTrue(SetUtil.isSetAndList(new ListSetView<Object>(new ArrayList<Object>())));
 	}
 	
 	@Test
@@ -61,11 +61,11 @@ public class Sets2Test {
 			x = new CheatSetAndList<Object>(),
 			y = ListSetView.asSetAndList((List<?>) x);
 		
-		assertTrue(Sets2.isSetAndList(x));
+		assertTrue(SetUtil.isSetAndList(x));
 		assertFalse(x instanceof SetAndList);
 		assertNotSame(x, y);
 		assertTrue(y instanceof SetAndList);
-		assertTrue(Sets2.isSetAndList(y));
+		assertTrue(SetUtil.isSetAndList(y));
 	}
 	@Test
 	public void testAsSetAndList_Fail() {

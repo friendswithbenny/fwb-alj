@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.fwb.collection.ListIndex;
-import org.fwb.collection.Sets2.SetView.ListSetView;
+import org.fwb.collection.SetUtil.SetView.ListSetView;
 import org.junit.Test;
 
 import com.google.common.collect.ImmutableMap;

@@ -7,8 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.fwb.collection.ListIndex.Indices.CollectionIndices;
-import org.fwb.collection.Sets2.SetAndList;
+import org.fwb.collection.ListIndex.ListIndices.CollectionListIndices;
+import org.fwb.collection.SetUtil.SetAndList;
 
 import com.google.common.base.Function;
 import com.google.common.base.MoreObjects;
@@ -64,7 +64,7 @@ public class ListIndex {
 	 * @throws IllegalArgumentException if a duplicate element is encountered
 	 */
 	public static <T> ImmutableMap<T, Integer> getUniqueListIndexAlternative(List<T> list) {
-		return Maps.uniqueIndex(new CollectionIndices(list), new AtIndex<T>(list));
+		return Maps.uniqueIndex(new CollectionListIndices(list), new AtIndex<T>(list));
 	}
 	
 	/**
@@ -76,7 +76,7 @@ public class ListIndex {
 	}
 	
 	public static <T> Map<Integer, T> asMap(List<T> list) {
-		return Maps.asMap(new CollectionIndices(list), new AtIndex<T>(list));
+		return Maps.asMap(new CollectionListIndices(list), new AtIndex<T>(list));
 	}
 	
 	/**
@@ -110,7 +110,7 @@ public class ListIndex {
 	}
 	
 	/** the set/list of numbers from 0 (inclusive) to {@link #size()} (exclusive). */
-	static abstract class Indices extends AbstractList<Integer> implements Set<Integer> {
+	public static abstract class ListIndices extends AbstractList<Integer> implements Set<Integer> {
 		@Override
 		public Integer get(int index) {
 //			return Preconditions.checkElementIndex(index, size());
@@ -118,9 +118,9 @@ public class ListIndex {
 		}
 		
 		/** constant implementation */
-		static class FixedIndices extends Indices {
+		public static class FixedListIndices extends ListIndices {
 			final int SIZE;
-			FixedIndices(int size) {
+			public FixedListIndices(int size) {
 				SIZE = size;
 			}
 			@Override
@@ -129,9 +129,9 @@ public class ListIndex {
 			}
 		}
 		/** pass-through implementation */
-		static class CollectionIndices extends Indices {
+		public static class CollectionListIndices extends ListIndices {
 			final Collection<?> C;
-			CollectionIndices(Collection<?> c) {
+			public CollectionListIndices(Collection<?> c) {
 				C = c;
 			}
 			@Override
