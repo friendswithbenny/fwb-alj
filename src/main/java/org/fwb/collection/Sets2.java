@@ -27,9 +27,19 @@ public class Sets2 {
 	/** a List whose elements are unique */
 	public static interface SetAndList<T> extends Set<T>, List<T> { }
 	
-	/** @return true iff {@code c} is an instance of BOTH {@link Set} and {@link List} */
-	public static boolean isSetAndList(Collection<?> c) {
-		return c instanceof Set && c instanceof List;
+	/** @return true iff {@code o} is an instance of BOTH {@link Set} and {@link List} */
+	public static boolean isSetAndList(Object o) {
+		return o instanceof Set && o instanceof List;
+	}
+	
+	/** @return true iff {@code list} is an instance of {@link Set} */
+	public static boolean isSet(List<?> list) {
+		return list instanceof Set;
+	}
+	
+	/** @return true iff {@code set} is an instance of {@link List} */
+	public static boolean isList(Set<?> set) {
+		return set instanceof List;
 	}
 	
 	/**
@@ -46,7 +56,9 @@ public class Sets2 {
 			implements Set<E> {
 		
 		final Collection<E> C;
-		/** @param c results are undefined if this does not adhere to {@link Set} interface. */
+		/**
+		 * @param c needn't be an instance of {@link Set}, but must conform to all contracts of the Set interface.
+		 */
 		public SetView(Collection<E> c) {
 			C = c;
 		}
@@ -66,27 +78,33 @@ public class Sets2 {
 			
 			/**
 			 * this method is analogous to the constructor,
-			 * but it requires the input already be an instance of Set (as well as List),
-			 * and it returns any instance of SetAndList directly without wrapping it.
+			 * but it requires the input already be an instance of the Set interface
+			 * (and it returns any instance of SetAndList directly without wrapping it).
+			 * 
+			 * @param setAndList an instance of {@link Set} (as well as {@link List})
+			 * @return an instance of SetAndList
 			 * 
 			 * @throws NullPointerException if {@code c} is null
 			 * @throws IllegalArgumentException if {@code c} is not an instance of BOTH Set and List
 			 */
-			public static <T> SetAndList<T> asSetAndList(Collection<T> c) {
-				if (c instanceof SetAndList)
-					return (SetAndList<T>) c;
+			public static <T> SetAndList<T> asSetAndList(List<T> setAndList) {
+				if (setAndList instanceof SetAndList)
+					return (SetAndList<T>) setAndList;
 				
-				Preconditions.checkNotNull(c,
+				Preconditions.checkNotNull(setAndList,
 						"not coercible to SetAndList: null");
 				
-				Preconditions.checkArgument(isSetAndList(c),
+				Preconditions.checkArgument(isSet(setAndList),
 						"not coercible to SetAndList: %s",
-						c.getClass());
+						setAndList.getClass());
 				
-				return new ListSetView<T>((List<T>) c);
+				return new ListSetView<T>(setAndList);
 			}
 			
 			final List<T> L;
+			/**
+			 * @param l needn't be an instance of {@link Set}, but must conform to all contracts of the Set interface.
+			 */
 			public ListSetView(List<T> l) {
 				L = l;
 			}

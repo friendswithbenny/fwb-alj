@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 
 import org.fwb.collection.Sets2;
@@ -58,7 +59,7 @@ public class Sets2Test {
 	public void testAsSetAndList_Pass() {
 		Collection<?>
 			x = new CheatSetAndList<Object>(),
-			y = ListSetView.asSetAndList(x);
+			y = ListSetView.asSetAndList((List<?>) x);
 		
 		assertTrue(Sets2.isSetAndList(x));
 		assertFalse(x instanceof SetAndList);
