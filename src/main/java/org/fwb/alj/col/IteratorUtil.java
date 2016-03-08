@@ -39,5 +39,35 @@ public class IteratorUtil {
 		public Iterator<T> iterator() {
 			return I;
 		}
+		
+		/**
+		 * @deprecated TODO
+		 * test!
+		 * rename!
+		 * track down and replace (SOME) references to IteratorIterable
+		 * (presumably by deprecating it for a while?)
+		 */
+		public static class StrictIteratorIterable<T> extends IteratorIterable<T> {
+			private Throwable
+				create = null,
+				firstCall = null;
+			
+			public StrictIteratorIterable(Iterator<T> i) {
+				super(i);
+				
+				create = new Throwable("create");
+			}
+			
+			@Override
+			public Iterator<T> iterator() {
+				if (null != firstCall)
+					throw new IllegalStateException(
+							"disallowed second #iterator call", firstCall);
+				
+				firstCall = new Throwable("first #iterator call", create);
+				
+				return super.iterator();
+			}
+		}
 	}
 }
