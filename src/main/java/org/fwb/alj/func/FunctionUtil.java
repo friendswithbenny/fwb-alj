@@ -10,9 +10,9 @@ public class FunctionUtil {
 	private FunctionUtil() {
 	}
 	
-	public static class CallCallable<T> implements Function<Callable<T>, T> {
+	public static class CallCallable<C extends Callable<V>, V> implements Function<C, V> {
 		@Override
-		public T apply(Callable<T> input) {
+		public V apply(C input) {
 			try {
 				return input.call();
 			} catch (Exception e) {

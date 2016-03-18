@@ -15,7 +15,7 @@ import com.google.common.collect.Lists;
 import static org.junit.Assert.assertEquals;
 
 public class FunctionUtilTest {
-	static final Function<Callable<Integer>, Integer> CALL_INT = new CallCallable<Integer>();
+	static final Function<Callable<Integer>, Integer> CALL_INT = new CallCallable<Callable<Integer>, Integer>();
 	
 	@Test
 	public void testCallCallable() {
