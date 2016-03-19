@@ -1,11 +1,13 @@
 package test.fwb.alj.func;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Callable;
 
 import org.fwb.alj.col.ListIndex.ListIndices.FixedListIndices;
+import org.fwb.alj.func.FunctionUtil;
 import org.fwb.alj.func.FunctionUtil.CallCallable;
 import org.junit.Test;
 
@@ -37,5 +39,14 @@ public class FunctionUtilTest {
 		public Integer call() throws Exception {
 			return i ++;
 		}
+	}
+	
+	@Test
+	public void testGetClass() {
+		assertEquals(
+				Arrays.asList(Object.class, String.class, ArrayList.class),
+				Lists.transform(
+						Arrays.asList(new Object(), "foo", new ArrayList<Integer>()),
+						FunctionUtil.GET_CLASS));
 	}
 }
