@@ -21,5 +21,22 @@ public class FunctionUtil {
 		}
 	}
 	
+	public static Function<Object, Class<?>> GET_CLASS =
+			new Function<Object, Class<?>>() {
+				@Override
+				public Class<?> apply(Object input) {
+					return input.getClass();
+				}
+			};
+	
+	/** @deprecated TODO consider this. is it safe? is it unsafe? */
+	static class GetClass<T> implements Function<T, Class<T>> {
+		@Override
+		@SuppressWarnings("unchecked")
+		public Class<T> apply(T input) {
+			return (Class<T>) input.getClass();
+		}
+	}
+	
 	// TODO UnaryConstructorFunction, NullaryInstanceMethodFunction, UnaryStaticMethodFunction
 }
