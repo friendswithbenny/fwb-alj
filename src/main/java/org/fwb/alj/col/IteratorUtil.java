@@ -7,8 +7,7 @@ import com.google.common.base.Preconditions;
 public class IteratorUtil {
 	/** @deprecated static utilities only */
 	@Deprecated
-	private IteratorUtil() {
-	}
+	private IteratorUtil() { }
 	
 	/**
 	 * source: {@link AbstractCollection#toString()}

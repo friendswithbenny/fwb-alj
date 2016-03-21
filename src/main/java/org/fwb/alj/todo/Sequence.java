@@ -3,7 +3,7 @@ package org.fwb.alj.todo;
 import java.util.Iterator;
 
 /**
- * TODO finish
+ * @deprecated TODO finish
  * 
  * analogous to {@link Iterator} with two important and related distinctions:
  * (1) instead of (like Iterator and even Enumeration)

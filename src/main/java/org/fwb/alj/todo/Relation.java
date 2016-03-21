@@ -9,7 +9,7 @@ import org.fwb.alj.todo.Relation.Field;
 import java.util.Set;
 
 /**
- * TODO
+ * @deprecated TODO
  * facilities for this special class of collections
  * which is a list-of-fields (Relation)
  * to be applied to lists-of-values (Records).
