@@ -15,7 +15,7 @@ public class CollectionUtil {
 	 * @return the number of add operations which "succeed" (modify the collection)
 	 * @see Collection#addAll(Collection)
 	 */
-	public <E> int addAll(Collection<E> collection, Iterator<? extends E> add) {
+	public static <E> int addAll(Collection<E> collection, Iterator<? extends E> add) {
 		int retVal = 0;
 		while (add.hasNext())
 			if (collection.add(add.next()))
@@ -27,7 +27,7 @@ public class CollectionUtil {
 	 * @throws IllegalArgumentException if an add operation "soft fails" (does not modify the collection)
 	 * @see Collection#addAll(Collection)
 	 */
-	public <E> void addAllForce(Collection<E> collection, Iterator<? extends E> add) {
+	public static <E> void addAllForce(Collection<E> collection, Iterator<? extends E> add) {
 		while (add.hasNext()) {
 			E next = add.next();
 			Preconditions.checkArgument(collection.add(next),

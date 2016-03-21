@@ -14,7 +14,7 @@ public class MapUtil {
 	/**
 	 * @throws IllegalArgumentException if any key-collisions occur
 	 */
-	public <K, V> void putAllNoCollisions(Map<K, V> map,
+	public static <K, V> void putAllNoCollisions(Map<K, V> map,
 			Iterator<Entry<? extends K, ? extends V>> entries) {
 		while (entries.hasNext()) {
 			Entry<? extends K, ? extends V> e = entries.next();
