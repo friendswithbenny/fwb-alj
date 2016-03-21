@@ -60,4 +60,15 @@ public class EnumUtil {
 			return Arrays.asList(c.getEnumConstants());
 		}
 	}
+	
+	public static class EnumValueOf<T extends Enum<T>> implements Function<String, T> {
+		final Class<T> CLS;
+		public EnumValueOf(Class<T> cls) {
+			CLS = cls;
+		}
+		@Override
+		public T apply(String input) {
+			return Enum.valueOf(CLS, input);
+		}
+	}
 }
