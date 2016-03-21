@@ -3,6 +3,7 @@ package org.fwb.alj.func;
 import java.util.concurrent.Callable;
 
 import com.google.common.base.Function;
+import com.google.common.base.Preconditions;
 
 public class FunctionUtil {
 	/** @deprecated static utilities only */
@@ -25,7 +26,9 @@ public class FunctionUtil {
 			new Function<Object, Class<?>>() {
 				@Override
 				public Class<?> apply(Object input) {
-					return input.getClass();
+					// TODO reason about whether checkNotNull is necessary / worth it
+					return Preconditions.checkNotNull(input, "GET_CLASS.apply(null)")
+							.getClass();
 				}
 			};
 	
