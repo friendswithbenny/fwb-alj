@@ -1,24 +1,24 @@
 package org.fwb.alj.col;
 
 import java.util.AbstractList;
-import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-import com.google.common.base.Function;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
 
 /**
  * returns (an immutable, live-view of) the concatenation of a List of Lists.
  * the {@link #get(int)} and {@link size()} operations are O(m)
  * where m is the number of Lists being concatenated,
  * but the {@link Iterator#next()} method is O(1).
+ * 
+ * n.b. it was easier to extend AbstractList and repeat some of {@link ConcatCollection}'s implementation,
+ * than to extend ConcatCollection and need to implement all the special {@link List} methods from-scratch.
  */
 public class ConcatList<T> extends AbstractList<T> {
-	final List<? extends List<? extends T>> LISTS;
-	public ConcatList(List<? extends List<? extends T>> lists) {
+	final Iterable<? extends List<? extends T>> LISTS;
+	public ConcatList(Iterable<? extends List<? extends T>> lists) {
 		LISTS = Preconditions.checkNotNull(lists);
 	}
 	
@@ -44,7 +44,8 @@ public class ConcatList<T> extends AbstractList<T> {
 	
 	@Override
 	public int size() {
-		return sumInts(Lists.transform(LISTS, SIZE));
+		return ConcatCollection.sumInts(
+				Iterables.transform(LISTS, ConcatCollection.SIZE));
 	}
 	
 	/*
@@ -54,20 +55,5 @@ public class ConcatList<T> extends AbstractList<T> {
 	@Override
 	public Iterator<T> iterator() {
 		return Iterables.concat(LISTS).iterator();
-	}
-	
-	static final Function<Collection<?>, Integer> SIZE =
-			new Function<Collection<?>, Integer>() {
-				@Override
-				public Integer apply(Collection<?> input) {
-					return input.size();
-				}
-			};
-	
-	static final int sumInts(List<Integer> ints) {
-		int retVal = 0;
-		for (int i : ints)
-			retVal += i;
-		return retVal;
 	}
 }
