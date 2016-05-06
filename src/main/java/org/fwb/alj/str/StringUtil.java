@@ -18,7 +18,7 @@ public class StringUtil {
 		
 		for (String methodName : DEFAULT_PARSER_METHOD_NAMES)
 			try {
-				return cr.STATIC.new UnaryMethodFunction<>(cls, methodName, String.class);
+				return cr.STATIC.new UnaryMethodFunction<String, T>(cls, methodName, String.class);
 			} catch (NoSuchMethodException e) {
 			}
 		
