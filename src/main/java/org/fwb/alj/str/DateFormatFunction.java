@@ -1,6 +1,7 @@
 package org.fwb.alj.str;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -22,6 +23,17 @@ public class DateFormatFunction implements Function<Date, String> {
 		}
 	};
 	
+	public final Function<String, Date> REVERSE = new Function<String, Date>() {
+		/** @throws RuntimeException wrapping {@link ParseException} */
+		@Override
+		public Date apply(String source) {
+			try {
+				return parse(source);
+			} catch (ParseException e) {
+				throw new RuntimeException(e);
+			}
+		}
+	};
 //	/** alternative for serializing long timestamps rather than Date instances */
 //	public final Function<Long, String> FROM_INT = new Function<Long, String>() {
 //		@Override
@@ -52,5 +64,13 @@ public class DateFormatFunction implements Function<Date, String> {
 	@Override
 	public String apply(Date input) {
 		return newDateFormat().format(input);
+	}
+	
+	/**
+	 * the reverse-function.
+	 * @see #REVERSE
+	 */
+	public Date parse(String source) throws ParseException {
+		return newDateFormat().parse(source);
 	}
 }
