@@ -37,6 +37,9 @@ public class DateFormatFunction implements Function<Date, String> {
 	 */
 	public DateFormatFunction(String pattern) {
 		PATTERN = pattern;
+		
+		// checks and throws the appropriate exceptions if pattern is invalid (discard result)
+		newDateFormat();
 	}
 	
 	DateFormat newDateFormat() {
