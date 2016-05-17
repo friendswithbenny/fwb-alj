@@ -40,6 +40,9 @@ public class DateFormatFunction implements Function<Date, String> {
 	}
 	
 	DateFormat newDateFormat() {
+		// TODO is it worth considering storing a ThreadLocal instance?
+		// I presume that would provide non-trivial performance gains
+		// in the case of a single thread applying this function many times.
 		return new SimpleDateFormat(PATTERN);
 	}
 	
