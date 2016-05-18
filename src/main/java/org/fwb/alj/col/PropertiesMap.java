@@ -15,8 +15,13 @@ import com.google.common.collect.Iterators;
  * analogous to guava's {@link Maps#fromProperties},
  * except this operates as a mutable view,
  * not an immutable copy.
+ * 
+ * @deprecated not sure this massive implementation is worth it,
+ * as I believe it has identical behavior to {@link #asMapOfStrings},
+ * except that its #iterator is fail-slow while this one's fails on P#propertyNames.
  */
-public class PropertiesMap extends AbstractMap<String, String> {
+@Deprecated
+class PropertiesMap extends AbstractMap<String, String> {
 	public final Properties P;
 	
 	public PropertiesMap(Properties p) {
