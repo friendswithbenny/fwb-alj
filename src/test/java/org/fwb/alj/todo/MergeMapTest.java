@@ -12,6 +12,7 @@ import com.google.common.collect.ImmutableMap;
 import static org.junit.Assert.assertEquals;
 
 /** @deprecated TODO more tests */
+// see MergeMap for TODO info about recent comment on SOF regarding my bug!
 public class MergeMapTest {
 	static final Object OBJECT = new Object();
 	

@@ -11,6 +11,8 @@ import com.google.common.base.Preconditions;
 /**
  * @deprecated TODO consider. this is just a quick prototype.
  */
+// TODO it appears the 'return' statements are actually bugs:
+// http://stackoverflow.com/questions/25773567/recursive-merge-of-n-level-maps/36123154#comment-64745316
 class MergeMap {
 	/**
 	 * a modified version of this:
@@ -34,6 +36,7 @@ class MergeMap {
 				Object originalValue = original.get(key);
 				
 				if (Objects.equal(originalValue, value))
+					// TODO (see top)
 					return;
 				
 				if (originalValue instanceof Collection) {
@@ -46,6 +49,7 @@ class MergeMap {
 					
 					((Collection) originalValue).addAll((Collection) value);
 					
+					// TODO (see top)
 					return;
 				}
 				
@@ -56,9 +60,12 @@ class MergeMap {
 					
 					deepMerge((Map) originalValue, (Map) value);
 					
+					// TODO (see top)
 					return;
 				}
 				
+				// to over-ride instead of failing:
+				// {@code original.put(key, value)}
 				throw new IllegalArgumentException(String.format(
 						"collision detected: %s%n%\torig:%s",
 						value, originalValue));
