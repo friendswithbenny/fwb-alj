@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+import java.util.Spliterator;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,7 +25,9 @@ public class SetUtil {
 	private SetUtil() { }
 	
 	/** a List whose elements are unique */
-	public static interface SetAndList<T> extends Set<T>, List<T> { }
+	public static interface SetAndList<T> extends Set<T>, List<T> {
+		Spliterator<T> spliterator();
+	}
 	
 	/** @return true iff {@code o} is an instance of BOTH {@link Set} and {@link List} */
 	public static boolean isSetAndList(Object o) {
@@ -115,6 +118,11 @@ public class SetUtil {
 			@Override
 			protected List<T> delegate() {
 				return L;
+			}
+
+			@Override
+			public Spliterator<T> spliterator() {
+				return super.spliterator();
 			}
 		}
 	}

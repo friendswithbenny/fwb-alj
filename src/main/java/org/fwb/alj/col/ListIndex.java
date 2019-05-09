@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.Spliterator;
 
 import org.fwb.alj.col.ListIndex.ListIndices.CollectionListIndices;
 import org.fwb.alj.col.SetUtil.SetAndList;
@@ -117,6 +118,11 @@ public class ListIndex {
 			return index;
 		}
 		
+		@Override
+		public Spliterator<Integer> spliterator() {
+			return super.spliterator();
+		}
+
 		/** constant implementation */
 		public static class FixedListIndices extends ListIndices {
 			final int SIZE;
