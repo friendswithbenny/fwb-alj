@@ -14,8 +14,6 @@ public class Dag<T> {
 		nodes = new HashMap<T, Node>(),
 		roots = new HashMap<T, Node>();
 	
-//	private final Set<Edge> edges = new HashSet<Edge>();
-	
 	public Set<T> getAncestors(T value) {
 		Set<T> ancestors = new HashSet<T>();
 		getAncestorsRecursive(nodes.get(value), ancestors);
@@ -54,16 +52,10 @@ public class Dag<T> {
 	}
 	
 	public Edge addEdge(T from, T to) {
-		// redundant with main logic
-//		Preconditions.checkArgument(
-//			! Objects.equals(from,  to),
-//			"self-loop: %s, %s", from, to);
-		
 		Node
 			fromNode = getNode(from),
 			toNode = getNode(to);
 		
-		// this implementation does not allow multi-edges
 		Preconditions.checkArgument(
 			fromNode.outgoing.containsKey(toNode),
 			"duplicate edge: %s->%s",
@@ -71,12 +63,6 @@ public class Dag<T> {
 			to);
 		// no need to check reverse direction (redundant)
 		
-//		Preconditions.checkArgument(
-//			! edges.contains(edge),
-//			"duplicate edge: %s",
-//			edge);
-		
-		// first validate
 		Set<T> ancestors = getAncestors(from);
 		Preconditions.checkArgument(
 			! ancestors.contains(to),
@@ -84,13 +70,10 @@ public class Dag<T> {
 			to,
 			ancestors);
 		
-		// then mutate.
+		// mutations
 		Edge edge = new Edge(fromNode, toNode);
-//		edges.add(edge);
 		fromNode.outgoing.put(toNode, edge);
 		toNode.incoming.put(fromNode, edge);
-		
-		// target by-definition not a root
 		roots.remove(to);
 		
 		return edge;
@@ -106,18 +89,10 @@ public class Dag<T> {
 			"cannot remove edge; not found: %s.>%s",
 			from,
 			to);
-//		Edge edge = new Edge(fromNode, toNode);
-//		Preconditions.checkArgument(
-//			edges.remove(edge),
-//			"cannot remove edge; not found: %s",
-//			edge);
-//		fromNode.outgoing.remove(toNode);
 		toNode.incoming.remove(fromNode);
 		
 		if (toNode.incoming.isEmpty())
 			roots.put(toNode.value, toNode);
-		
-//		return edge;
 	}
 	
 	public Node removeNode(T value) {
