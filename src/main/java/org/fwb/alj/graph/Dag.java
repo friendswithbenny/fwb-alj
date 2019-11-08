@@ -10,11 +10,11 @@ import java.util.Set;
 import com.google.common.base.Preconditions;
 
 public class Dag<T> {
-	final Map<T, Node>
+	private final Map<T, Node>
 		nodes = new HashMap<T, Node>(),
 		roots = new HashMap<T, Node>();
 	
-	final Set<Edge> edges = new HashSet<Edge>();
+	private final Set<Edge> edges = new HashSet<Edge>();
 	
 	public Set<T> getAncestors(T value) {
 		Set<T> ancestors = new HashSet<T>();
@@ -23,7 +23,7 @@ public class Dag<T> {
 	}
 	private void getAncestorsRecursive(Node node, Set<T> ancestors) {
 		if (ancestors.add(node.value))
-			for (Edge e : node.incoming)
+			for (Edge e : node.incoming.values())
 				getAncestorsRecursive(e.from, ancestors);
 	}
 	
@@ -80,8 +80,8 @@ public class Dag<T> {
 		
 		// then mutate.
 		edges.add(edge);
-		fromNode.outgoing.add(edge);
-		toNode.incoming.add( edge);
+		fromNode.outgoing.put(toNode, edge);
+		toNode.incoming.put(fromNode, edge);
 		
 		// target by-definition not a root
 		roots.remove(to);
@@ -100,8 +100,8 @@ public class Dag<T> {
 			"cannot remove edge; not found: %s",
 			edge);
 		
-		fromNode.outgoing.remove(edge);
-		toNode.incoming.remove(edge);
+		fromNode.outgoing.remove(toNode);
+		toNode.incoming.remove(fromNode);
 		
 		if (toNode.incoming.isEmpty())
 			roots.put(toNode.value, toNode);
@@ -118,9 +118,9 @@ public class Dag<T> {
 		
 		roots.remove(value);
 		
-		for (Edge e: node.outgoing)
+		for (Edge e: node.outgoing.values())
 			removeEdge(value, e.to.value);
-		for (Edge e: node.incoming)
+		for (Edge e: node.incoming.values())
 			removeEdge(e.from.value, value);
 		
 		return node;
@@ -129,9 +129,9 @@ public class Dag<T> {
 	public class Node {
 		final T value;
 		
-		final Set<Edge>
-			outgoing = new HashSet<Edge>(),	
-			incoming = new HashSet<Edge>();
+		final Map<Node, Edge>
+			outgoing = new HashMap<Node, Edge>(),	
+			incoming = new HashMap<Node, Edge>();
 		
 		Node(T value) {
 			this.value = value;
@@ -144,7 +144,9 @@ public class Dag<T> {
 		@Override
 		public boolean equals(Object o) {
 			return (o instanceof Dag.Node)
-				&& Objects.equals(value, ((Dag.Node) o).value);
+				&& Objects.equals(
+					value,
+					((Dag<?>.Node) o).value);
 		}
 	}
 	public class Edge {
@@ -167,6 +169,8 @@ public class Dag<T> {
 		@Override
 		public boolean equals(Object o) {
 			if (o instanceof Dag.Edge) {
+				
+				@SuppressWarnings({ "rawtypes", "unchecked" })
 				Edge e = (Dag.Edge) o;
 				// this line crashes my whole eclipse compiler!
 //				Dag<?>.Edge e = (Dag<?>.Edge) o;
