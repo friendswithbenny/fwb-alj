@@ -6,19 +6,11 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
-//import java.util.function.Function;
 
 import com.google.common.base.Preconditions;
 
 public class Dag<T> {
 	private final Map<T, Node> nodes = new HashMap<T, Node>();
-//	private final Function<T, Node> getNode =
-//		new Function<T, Node>() {
-//			@Override
-//			public Dag<T>.Node apply(T value) {
-//				return nodes.get(value);
-//			}
-//		};
 	
 	private final Set<Node> roots = new HashSet<Node>();
 	
