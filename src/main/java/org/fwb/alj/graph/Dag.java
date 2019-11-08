@@ -1,6 +1,7 @@
 package org.fwb.alj.graph;
 
-import java.util.Arrays;
+//import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -30,8 +31,8 @@ public class Dag<T> {
 	}
 	private void getAncestorsRecursive(Node node, Set<T> ancestors) {
 		if (ancestors.add(node.value))
-			for (Edge e : node.incoming.values())
-				getAncestorsRecursive(e.from, ancestors);
+			for (Node from : node.incoming.keySet())
+				getAncestorsRecursive(from, ancestors);
 	}
 	
 	private Node getNode(T value) {
@@ -62,7 +63,7 @@ public class Dag<T> {
 		return node;
 	}
 	
-	public Edge addEdge(T from, T to) {
+	public void addEdge(T from, T to) {
 		Node
 			fromNode = getNode(from),
 			toNode = getNode(to);
@@ -88,7 +89,7 @@ public class Dag<T> {
 		
 		roots.remove(to);
 		
-		return edge;
+//		return edge;
 	}
 	
 	public void removeEdge(T from, T to) {
@@ -125,11 +126,15 @@ public class Dag<T> {
 	}
 	
 	public class Node {
-		final T value;
+		public final T value;
 		
-		final Map<Node, Edge>
-			outgoing = new HashMap<Node, Edge>(),	
+		private final Map<Node, Edge>
+			outgoing = new HashMap<Node, Edge>(),
 			incoming = new HashMap<Node, Edge>();
+		
+		public final Set<Node>
+			parents = Collections.unmodifiableSet(outgoing.keySet()),
+			children = Collections.unmodifiableSet(incoming.keySet());
 		
 		Node(T value) {
 			this.value = value;
@@ -154,9 +159,11 @@ public class Dag<T> {
 					((Dag<?>.Node) o).value);
 		}
 	}
-	public class Edge {
-		/** special reference to help with equality testing */
-		private final Dag<T> dag = Dag.this;
+	
+	/** this class exists solely to encapsulate edge metadata */
+	private class Edge {
+//		/** special reference to help with equality testing */
+//		private final Dag<T> dag = Dag.this;
 		
 		private final Node
 			from,
@@ -166,34 +173,36 @@ public class Dag<T> {
 			this.to = to;
 		}
 		
-		@Override
-		public String toString() {
-			return String.format(
-				"Edge(%s, %s)",
-				from.value,
-				to.value);
-		}
+		// add any metadata here
 		
-		@Override
-		public int hashCode() {
-			return Arrays.asList(from, to).hashCode();
-		}
-		
-		@Override
-		public boolean equals(Object o) {
-			if (o instanceof Dag.Edge) {
-				
-				@SuppressWarnings({ "rawtypes", "unchecked" })
-				Edge e = (Dag.Edge) o;
-				// this line crashes my whole eclipse compiler!
-//				Dag<?>.Edge e = (Dag<?>.Edge) o;
-				
-				if (dag == e.dag)
-					return Arrays.asList(from, to).equals(Arrays.asList(e.from, e.to));
-				else
-					return false;
-			} else
-				return false;
-		}
+//		@Override
+//		public String toString() {
+//			return String.format(
+//				"Edge(%s, %s)",
+//				from.value,
+//				to.value);
+//		}
+//		
+//		@Override
+//		public int hashCode() {
+//			return Arrays.asList(from, to).hashCode();
+//		}
+//		
+//		@Override
+//		public boolean equals(Object o) {
+//			if (o instanceof Dag.Edge) {
+//				
+//				@SuppressWarnings({ "rawtypes", "unchecked" })
+//				Edge e = (Dag.Edge) o;
+//				// this line crashes my whole eclipse compiler!
+////				Dag<?>.Edge e = (Dag<?>.Edge) o;
+//				
+//				if (dag == e.dag)
+//					return Arrays.asList(from, to).equals(Arrays.asList(e.from, e.to));
+//				else
+//					return false;
+//			} else
+//				return false;
+//		}
 	}
 }
