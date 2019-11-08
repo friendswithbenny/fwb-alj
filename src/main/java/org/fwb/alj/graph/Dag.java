@@ -13,12 +13,8 @@ public class Dag<T> {
 	final Map<T, Node>
 		nodes = new HashMap<T, Node>(),
 		roots = new HashMap<T, Node>();
-//		leaves = new HashMap<T, Node>();
 	
 	final Set<Edge> edges = new HashSet<Edge>();
-//	final Map<T, Edge>
-//		sources = new HashMap<T, Edge>(),
-//		targets = new HashMap<T, Edge>();
 	
 	public Set<T> getAncestors(T value) {
 		Set<T> ancestors = new HashSet<T>();
@@ -51,8 +47,6 @@ public class Dag<T> {
 		// TODO wrong exception, this really should be checkArgument or "NoSuchElementException"
 		Preconditions.checkNotNull(fromNode);
 		Preconditions.checkNotNull(toNode);
-//		Preconditions.checkState(nodes.containsKey(from));
-//		Preconditions.checkState(nodes.containsKey(to));
 		
 		// this implementation does not allow multi-edges
 		Edge edge = new Edge(fromNode, toNode);
@@ -63,12 +57,9 @@ public class Dag<T> {
 		
 		// then mutate.
 		edges.add(edge);
-//		sources.put(from, edge);
-//		targets.put(to, edge);
 		fromNode.outgoing.add(edge);
 		toNode.incoming.add( edge);
 		
-//		leaves.remove(from);
 		roots.remove(to);
 		
 		return edge;
@@ -127,15 +118,6 @@ public class Dag<T> {
 			return (o instanceof Dag.Node)
 				&& Objects.equals(value, ((Dag.Node) o).value);
 		}
-		
-//		/** an outgoing edge */
-//		public class Edge {
-//			final Node from = Node.this;
-//			final Node to;
-//			Edge(Node to) {
-//				this.to = to;
-//			}
-//		}
 	}
 	public class Edge {
 		/** special reference to help with equality testing */
