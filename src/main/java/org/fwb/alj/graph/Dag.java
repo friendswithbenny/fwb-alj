@@ -124,6 +124,13 @@ public class Dag<T> {
 		}
 		
 		@Override
+		public String toString() {
+			return String.format(
+				"Node(%s)",
+				value);
+		}
+		
+		@Override
 		public int hashCode() {
 			return Objects.hashCode(value);
 		}
@@ -145,6 +152,14 @@ public class Dag<T> {
 		Edge(Node from, Node to) {
 			this.from = from;
 			this.to = to;
+		}
+		
+		@Override
+		public String toString() {
+			return String.format(
+				"Edge(%s, %s)",
+				from.value,
+				to.value);
 		}
 		
 		@Override
