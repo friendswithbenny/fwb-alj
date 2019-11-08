@@ -16,8 +16,17 @@ public class Dag<T> {
 	
 	public Set<T> getAncestors(T value) {
 		Set<T> ancestors = new HashSet<T>();
-		getAncestorsRecursive(nodes.get(value), ancestors);
+		getAncestorsRecursive(
+			getNode(value),
+			ancestors);
 		return ancestors;
+	}
+	public Set<T> getDescendants(T value) {
+		Set<T> descendants = new HashSet<T>();
+		getDescendantsRecursive(
+			getNode(value),
+			descendants);
+		return descendants;
 	}
 	
 	/**
@@ -112,6 +121,11 @@ public class Dag<T> {
 			for (Node from : node.incoming.keySet())
 				getAncestorsRecursive(from, ancestors);
 	}
+	private void getDescendantsRecursive(Node node, Set<T> descendants) {
+		if (descendants.add(node.value))
+			for (Node from : node.outgoing.keySet())
+				getDescendantsRecursive(from, descendants);
+	}
 	
 	public class Node {
 		private final Dag<T> dag = Dag.this;
@@ -157,7 +171,7 @@ public class Dag<T> {
 	
 	/** this class exists solely to encapsulate edge metadata */
 	private class Edge {
-		public final Node
+		final Node
 			from,
 			to;
 		private Edge(Node from, Node to) {
