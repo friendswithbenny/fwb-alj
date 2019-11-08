@@ -27,13 +27,26 @@ public class Dag<T> {
 				getAncestorsRecursive(e.from, ancestors);
 	}
 	
+	private Node getNode(T value) {
+		Node node = nodes.get(value);
+		Preconditions.checkArgument(
+			null != node,
+			"node not found: %s",
+			value);
+		return node;
+	}
+	
 	/**
 	 * add a value not already in the Dag.
 	 * @return a (root) node
 	 * @throws IllegalStateException if the value is already in the Dag
 	 */
 	public Node addNode(T value) {
-		Preconditions.checkState(! nodes.containsKey(value));
+		Preconditions.checkArgument(
+			! nodes.containsKey(value),
+			"node already exists. cannot add: %s",
+			value);
+		
 		Node node = new Node(value);
 		nodes.put(value, node);
 		roots.put(value, node);
@@ -41,25 +54,36 @@ public class Dag<T> {
 	}
 	
 	public Edge addEdge(T from, T to) {
+		// redundant with main logic
+//		Preconditions.checkArgument(
+//			! Objects.equals(from,  to),
+//			"self-loop: %s, %s", from, to);
+		
 		Node
-			fromNode = nodes.get(from),
-			toNode = nodes.get(to);
-		// TODO wrong exception, this really should be checkArgument or "NoSuchElementException"
-		Preconditions.checkNotNull(fromNode);
-		Preconditions.checkNotNull(toNode);
+			fromNode = getNode(from),
+			toNode = getNode(to);
 		
 		// this implementation does not allow multi-edges
 		Edge edge = new Edge(fromNode, toNode);
-		Preconditions.checkState(! edges.contains(edge));
+		Preconditions.checkArgument(
+			! edges.contains(edge),
+			"duplicate edge: %s",
+			edge);
 		
 		// first validate
-		Preconditions.checkState(! getAncestors(from).contains(to));
+		Set<T> ancestors = getAncestors(from);
+		Preconditions.checkArgument(
+			! ancestors.contains(to),
+			"loop detected. found child in ancestors: %s\n\t%s",
+			to,
+			ancestors);
 		
 		// then mutate.
 		edges.add(edge);
 		fromNode.outgoing.add(edge);
 		toNode.incoming.add( edge);
 		
+		// target by-definition not a root
 		roots.remove(to);
 		
 		return edge;
@@ -67,13 +91,14 @@ public class Dag<T> {
 	
 	public Edge removeEdge(T from, T to) {
 		Node
-			fromNode = nodes.get(from),
-			toNode = nodes.get(to);
-		Preconditions.checkNotNull(fromNode);
-		Preconditions.checkNotNull(toNode);
+			fromNode = getNode(from),
+			toNode = getNode(to);
 		
 		Edge edge = new Edge(fromNode, toNode);
-		Preconditions.checkNotNull(edges.remove(edge));
+		Preconditions.checkArgument(
+			edges.remove(edge),
+			"cannot remove edge; not found: %s",
+			edge);
 		
 		fromNode.outgoing.remove(edge);
 		toNode.incoming.remove(edge);
@@ -86,7 +111,10 @@ public class Dag<T> {
 	
 	public Node removeNode(T value) {
 		Node node = nodes.remove(value);
-		Preconditions.checkNotNull(node);
+		Preconditions.checkArgument(
+			null != node,
+			"cannot remove node; not found: %s",
+			value);
 		
 		roots.remove(value);
 		
