@@ -104,10 +104,10 @@ public class Dag<T> {
 		
 		roots.remove(value);
 		
-		for (Edge e: node.outgoing.values())
-			removeEdge(value, e.to.value);
-		for (Edge e: node.incoming.values())
-			removeEdge(e.from.value, value);
+		for (Node to: node.outgoing.keySet())
+			removeEdge(value, to.value);
+		for (Node from: node.incoming.keySet())
+			removeEdge(from.value, value);
 		
 		return node;
 	}
