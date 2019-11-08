@@ -14,7 +14,7 @@ public class Dag<T> {
 		nodes = new HashMap<T, Node>(),
 		roots = new HashMap<T, Node>();
 	
-	private final Set<Edge> edges = new HashSet<Edge>();
+//	private final Set<Edge> edges = new HashSet<Edge>();
 	
 	public Set<T> getAncestors(T value) {
 		Set<T> ancestors = new HashSet<T>();
@@ -64,11 +64,17 @@ public class Dag<T> {
 			toNode = getNode(to);
 		
 		// this implementation does not allow multi-edges
-		Edge edge = new Edge(fromNode, toNode);
 		Preconditions.checkArgument(
-			! edges.contains(edge),
-			"duplicate edge: %s",
-			edge);
+			fromNode.outgoing.containsKey(toNode),
+			"duplicate edge: %s->%s",
+			from,
+			to);
+		// no need to check reverse direction (redundant)
+		
+//		Preconditions.checkArgument(
+//			! edges.contains(edge),
+//			"duplicate edge: %s",
+//			edge);
 		
 		// first validate
 		Set<T> ancestors = getAncestors(from);
@@ -79,7 +85,8 @@ public class Dag<T> {
 			ancestors);
 		
 		// then mutate.
-		edges.add(edge);
+		Edge edge = new Edge(fromNode, toNode);
+//		edges.add(edge);
 		fromNode.outgoing.put(toNode, edge);
 		toNode.incoming.put(fromNode, edge);
 		
@@ -89,24 +96,28 @@ public class Dag<T> {
 		return edge;
 	}
 	
-	public Edge removeEdge(T from, T to) {
+	public void removeEdge(T from, T to) {
 		Node
 			fromNode = getNode(from),
 			toNode = getNode(to);
 		
-		Edge edge = new Edge(fromNode, toNode);
 		Preconditions.checkArgument(
-			edges.remove(edge),
-			"cannot remove edge; not found: %s",
-			edge);
-		
-		fromNode.outgoing.remove(toNode);
+			null != fromNode.outgoing.remove(toNode),
+			"cannot remove edge; not found: %s.>%s",
+			from,
+			to);
+//		Edge edge = new Edge(fromNode, toNode);
+//		Preconditions.checkArgument(
+//			edges.remove(edge),
+//			"cannot remove edge; not found: %s",
+//			edge);
+//		fromNode.outgoing.remove(toNode);
 		toNode.incoming.remove(fromNode);
 		
 		if (toNode.incoming.isEmpty())
 			roots.put(toNode.value, toNode);
 		
-		return edge;
+//		return edge;
 	}
 	
 	public Node removeNode(T value) {
