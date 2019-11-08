@@ -6,13 +6,22 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Function;
 
 import com.google.common.base.Preconditions;
 
 public class Dag<T> {
-	private final Map<T, Node>
-		nodes = new HashMap<T, Node>(),
-		roots = new HashMap<T, Node>();
+	private final Map<T, Node> nodes = new HashMap<T, Node>();
+//		roots = new HashMap<T, Node>();
+	private final Function<T, Node> getNode =
+		new Function<T, Node>() {
+			@Override
+			public Dag<T>.Node apply(T value) {
+				return nodes.get(value);
+			}
+		};
+	
+	private final Set<Node> roots = new HashSet<Node>();
 	
 	public Set<T> getAncestors(T value) {
 		Set<T> ancestors = new HashSet<T>();
@@ -47,7 +56,9 @@ public class Dag<T> {
 		
 		Node node = new Node(value);
 		nodes.put(value, node);
-		roots.put(value, node);
+		
+		roots.add(node);
+		
 		return node;
 	}
 	
@@ -74,6 +85,7 @@ public class Dag<T> {
 		Edge edge = new Edge(fromNode, toNode);
 		fromNode.outgoing.put(toNode, edge);
 		toNode.incoming.put(fromNode, edge);
+		
 		roots.remove(to);
 		
 		return edge;
@@ -92,7 +104,7 @@ public class Dag<T> {
 		toNode.incoming.remove(fromNode);
 		
 		if (toNode.incoming.isEmpty())
-			roots.put(toNode.value, toNode);
+			roots.add(toNode);
 	}
 	
 	public Node removeNode(T value) {
@@ -102,12 +114,12 @@ public class Dag<T> {
 			"cannot remove node; not found: %s",
 			value);
 		
-		roots.remove(value);
-		
 		for (Node to: node.outgoing.keySet())
 			removeEdge(value, to.value);
 		for (Node from: node.incoming.keySet())
 			removeEdge(from.value, value);
+		
+		roots.remove(value);
 		
 		return node;
 	}
@@ -144,12 +156,12 @@ public class Dag<T> {
 	}
 	public class Edge {
 		/** special reference to help with equality testing */
-		final Dag<T> dag = Dag.this;
+		private final Dag<T> dag = Dag.this;
 		
-		final Node
+		private final Node
 			from,
 			to;
-		Edge(Node from, Node to) {
+		private Edge(Node from, Node to) {
 			this.from = from;
 			this.to = to;
 		}
