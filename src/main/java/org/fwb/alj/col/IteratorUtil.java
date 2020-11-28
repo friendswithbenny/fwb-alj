@@ -1,5 +1,6 @@
 package org.fwb.alj.col;
 
+//import java.util.Enumeration;
 import java.util.Iterator;
 
 import com.google.common.base.Preconditions;
@@ -26,6 +27,24 @@ public class IteratorUtil {
 		}
 		return sb.append(']').toString();
 	}
+	
+//	/**
+//	 * @deprecated @see {@link com.google.common.collect.Iterators#forEnumeration(Enumeration)}
+//	 */
+//	public static class EnumerationIterator<T> implements Iterator<T> {
+//		final Enumeration<T> E;
+//		EnumerationIterator(Enumeration<T> e) {
+//			E = e;
+//		}
+//		@Override
+//		public boolean hasNext() {
+//			return E.hasMoreElements();
+//		}
+//		@Override
+//		public T next() {
+//			return E.nextElement();
+//		}
+//	}
 	
 	public static class IteratorIterable<T> implements Iterable<T> {
 		final Iterator<T> I;
